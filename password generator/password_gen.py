@@ -1,17 +1,52 @@
-# password_gen.py
+import os
 from itertools import product
 
-# 🔧 Customize this list
-keywords = ["summer", "nicole", "stanly193", "2020", "Dixon", "snapchat", "gymnastics" "may6"]
-symbols = ["_", "!", "@", "#", "$" "?" "%" "*" "&" "=" "+" "-"]
-numbers = ["", "2006", "321", "1", "12", "1234", "06" "21" "22" "23" "24" "20" "19"]
+# 🔧 Custom keyword base
+keywords = [
+    "admin", "test", "user", "guest", "root",
+    "access", "default", "login", "secure", "portal"
+]
 
-# 💾 Output file
-with open("password.txt", "w") as f:
-    for base in keywords:
-        for sym, num in product(symbols, numbers):
-            pwd = f"{base}{sym}{num}"
-            if 8 <= len(pwd) <= 16:  # Control password length
-                f.write(pwd + "\n")
+symbols = [
+    "", "_", "!", "@", "#", "$", "?", "%", "*", "&", "=", "+", "-"
+]
 
-print("✅ Custom passwords.txt generated!")
+numbers = [
+    "", "123", "2024", "2023", "001", "1234", "111", "000", "789", "999", "314", "007"
+]
+
+# 📁 Create 'passwords' folder if it doesn't exist
+output_dir = os.path.join(os.path.dirname(__file__), "passwords")
+os.makedirs(output_dir, exist_ok=True)
+
+# 📝 Function to get a unique filename
+def get_unique_filename(base_name="passwords.txt"):
+    path = os.path.join(output_dir, base_name)
+    if not os.path.exists(path):
+        return path
+    count = 1
+    while True:
+        alt_path = os.path.join(output_dir, f"passwords({count}).txt")
+        if not os.path.exists(alt_path):
+            return alt_path
+        count += 1
+
+# 🎯 Generate passwords
+def generate_passwords():
+    output_file = get_unique_filename()
+    total = 0
+
+    with open(output_file, "w") as f:
+        for base in keywords:
+            for sym, num in product(symbols, numbers):
+                pwd = f"{base}{sym}{num}"
+                if 8 <= len(pwd) <= 16:
+                    f.write(pwd + "\n")
+                    total += 1
+
+    print(f"✅ Generated {total} passwords.")
+    print(f"📁 Output file: {output_file}")
+
+# 🚀 Run it
+if __name__ == "__main__":
+    generate_passwords()
