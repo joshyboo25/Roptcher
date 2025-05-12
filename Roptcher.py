@@ -150,14 +150,15 @@ class SimpleBruteForcer:
             self.stop_flag.set()
 
 if __name__ == "__main__":
-    print(Fore.GREEN + """
+    print(Fore.GREEN + r"""
    ____             _       _                
   |  _ \ ___  _ __ | |_ ___| |__   ___ _ __  
   | |_) / _ \| '_ \| __/ __| '_ \ / _ \ '__| 
   |  _ < (_) | |_) | || (__| | | |  __/ |    
   |_| \_\___/| .__/ \__\___|_| |_|\___|_|    
              |_|      v1.0 by josh + chatgpt
-    """)
+""")
+
     
     type_out(Fore.GREEN + "🔥 Script started")
     
