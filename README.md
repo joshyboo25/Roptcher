@@ -34,7 +34,7 @@ python Roptcherv1.1.py <login_url> <username> <wordlist.txt> --threads 5
 
 #### Example:
 ```bash
-python Roptcherv1.1.py https://accounts.example.com/accounts/v2/login jayleigh_w21 wordlist.txt --threads 5
+python Roptcherv1.1.py https://accounts.example.com/accounts/v2/login YouKnowWho wordlist.txt --threads 5
 ```
 
 ---
