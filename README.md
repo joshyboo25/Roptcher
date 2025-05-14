@@ -1,127 +1,71 @@
-﻿# ROPTCHER
+# Roptcher 🛠️ - Multi-threaded Login Brute Forcer
 
-**Rapid Operation Toolkit for Credential Hunting & Endpoint Reconnaissance**
-
-![Status](https://img.shields.io/badge/status-active-brightgreen)
-![License](https://img.shields.io/badge/license-MIT-blue)
+Roptcher is a multi-threaded, visually styled brute-forcing utility designed to test login endpoints that use a 2-step login flow (like `username → password` on separate pages). It is ideal for educational, auditing, or red teaming use cases. **It does not use proxies**, so VPN or multihop usage is strongly advised.
 
 ---
 
-## 🚀 What is ROPTCHER?
-
-ROPTCHER is a powerful and customizable command-line tool designed for ethical red teamers, security researchers, and advanced penetration testers.
-
-It supports multithreaded brute-force authentication, CSRF-aware form submissions, runtime control, and more. Built for speed, modularity, and maximum operator control.
-
----
-
-## 🔧 Features
-
-* ✅ **Multithreaded login brute-force**
-* 🔐 **CSRF token parsing and injection**
-* ⏯️ **Runtime controls** (`CTRL+P` to pause, `CTRL+C` to stop cleanly)
-* 📄 **Smart wordlist support** (filtered + customizable)
-* 💡 **Minimal logging / visible output** for stealth testing
-
----
-
-## 📦 Installation
-
-```bash
-# Clone the repo
-$ git clone https://github.com/yourusername/roptcher.git
-$ cd roptcher
-
-# (Optional) Create a virtual environment
-$ python -m venv venv
-$ source venv/bin/activate  # or venv\Scripts\activate on Windows
-
-# Run the tool
-$ python roptcher.py --help
-```
-
-Dependencies are auto-installed on script execution. You can also run:
-
-```bash
-pip install -r requirements.txt
-```
+## 📌 Features
+- Multi-threaded brute forcing (`--threads` support)
+- Keyboard controls: pause/resume with `CTRL+P`, quit instantly with `CTRL+C`
+- Styled console output (with emoji fallback)
+- Custom wordlist support
+- Auto-handles CSRF/XSRF and AI tokens
+- Logs successful credentials to `hits.txt`
+- Saves last server response to `last_response.html` for debugging
 
 ---
 
 ## ⚙️ Usage
+### 🔧 Requirements
+Ensure Python 3.x is installed. Roptcher auto-installs dependencies:
+- `requests`
+- `beautifulsoup4`
+- `colorama`
+- `keyboard`
 
+> ⚠️ On Windows, `keyboard` may require admin privileges to function correctly.
+
+### ▶️ Launch Command
 ```bash
-python roptcher.py <url> <username> <wordlist.txt> [--threads N]
+python Roptcherv1.1.py <login_url> <username> <wordlist.txt> --threads 5
 ```
 
-### Example:
-
+#### Example:
 ```bash
-python roptcher.py https://target.com/login admin passwords.txt --threads 10
+python Roptcherv1.1.py https://accounts.example.com/accounts/v2/login jayleigh_w21 wordlist.txt --threads 5
 ```
 
-### Arguments:
+---
 
-* `url` → The login endpoint URL
-* `username` → The user to test against
-* `wordlist.txt` → The file of passwords to iterate through
-* `--threads` → (Optional) Number of threads (default is 5)
+## 🔐 How It Works
+1. Connects to the login page with the target username.
+2. Base64-encodes the username to generate the `ai_token`.
+3. Extracts `xsrf_token` from cookies.
+4. Sends a POST to `/accounts/v2/password?ai=<token>` with the password.
+5. Checks if the final redirect is `/accounts/welcome` or if login succeeded.
+6. If success, logs to `hits.txt`. If not, moves to next password.
 
 ---
 
-## 🧠 Tips for Wordlists
-
-* Use your own `passwords.txt` or generate one with our `password_gen.py`.
-* Combine dictionary words, symbols, numbers, and known info (OSINT).
-* Ensure passwords meet the system’s length/policy requirements
-
----
-
-## 🕵️ VPN & Stealthing Instructions
-
-ROPTCHER **does not include proxy support**. To enhance anonymity and reduce detection:
-
-* Use your own VPN for all sessions
-* Activate **Multi-Hop VPN** (double-hop routing) for better operational security
-* Avoid running attacks from your home IP — always route through secure, obfuscated networks
-* Optional: combine with containerization or virtual machine setups
-
-You are responsible for maintaining your own operational stealth.
+## 🛡️ Recommended Precautions
+- **Use a VPN**, proxy, or Tor to mask activity. This script does not use built-in proxy rotation.
+- Enable **multihop** on VPN for added stealth.
+- Respect terms of service and laws in your country. This tool is intended for testing **only with permission**.
 
 ---
 
-## 🛑 Runtime Controls
-
-* `CTRL+P` → Pause/resume the attack
-* `CTRL+C` → Gracefully terminate threads and exit
-
----
-
-## 📁 Output
-
-* ✅ Found credentials are printed to console
-* ❌ Failed attempts are logged with minimal noise
-* Future releases will support export to `hits.txt`
+## 📂 Output Files
+- `hits.txt` → Stores any successful logins.
+- `last_response.html` → Stores the latest server response for inspection.
 
 ---
 
-## 📜 License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
-
-## 🧑‍💻 Credits
-
-Crafted by joshyboo25
-If you use this project or learn from it, consider giving credit or a ⭐ on GitHub.
+## 🧠 Author
+Built by **@joshyboo25** with lots of thc and caffeine ☕ — have fun guys just be carful and please remember i am not responsible for your stupidity.
 
 ---
 
-## ⚠️ Legal Disclaimer
-
-This project is for **educational and authorized security testing only**.
-Unauthorized access or usage against systems you do not own or have explicit permission to test is illegal and unethical.
-**You are fully responsible** for how you use this tool.
+## 📄 License
+MIT License — free to use, modify, and distribute.
 
 
