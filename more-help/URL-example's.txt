@@ -1,9 +1,12 @@
 
-example for snapchat: py Roptcher.py https://accounts.sc.com/v2/login username passwords.txt --threads 2 
-.
-.
-example for Instagram: py Roptcher.py https://www.insta.com/accounts/login/ username passwords.txt --threads 5
-.
-.
-example for Gmail: py Roptcher.py https://accounts.bigdaddyG.com/v3/signin/ username passwords.txt --threads 1
-.
+[example for snapchat: py Roptcher.py https://accounts.sc.com/v2/login username passwords.txt --threads 2]
+``````````````````````````````````````````````````````````````````````````````````````````````````````````
+
+                              /\my version is bassicly just for this link/\
+                              `````````````````````````````````````````````
+
+                 but the script is fully editable already pretty good at what i made it for.
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                |                                                                           | 
+                |                          *DONT BE STUPIT PLEASE*                          |
+                |___________________________________________________________________________|
