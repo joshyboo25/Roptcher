@@ -1,12 +1,12 @@
 
-[example for snapchat: py Roptcher.py https://accounts.sc.com/v2/login username passwords.txt --threads 2]
-``````````````````````````````````````````````````````````````````````````````````````````````````````````
+        [example for snapchat: py Roptcher.py https://accounts.snapchat.com/accounts/v2/login username passwords.txt --threads 2]
+        `````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
-                              /\my version is bassicly just for this link/\
-                              `````````````````````````````````````````````
+                                              /\my version is bassicly just for this link/\
+                                              `````````````````````````````````````````````
 
-                 but the script is fully editable already pretty good at what i made it for.
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                |                                                                           | 
-                |                          *DONT BE STUPIT PLEASE*                          |
-                |___________________________________________________________________________|
+                                but the script is fully editable already pretty good at what i made it for.
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                               |                                                                           | 
+                               |                          *DONT BE STUPIT PLEASE*                          |
+                               |___________________________________________________________________________|
