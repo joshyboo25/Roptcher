@@ -1,0 +1,83 @@
+# 🧠 Roptcher (For Curious Hackers)
+
+Welcome to **Roptcher** — a tool that guesses passwords really, really fast. It’s designed to test login forms that make you type your username first, then your password (aka a 2-step login flow). Roptcher does this with style, speed, and a touch of ✨ hacker sauce ✨.
+
+⚠️ **This tool is for educational use only. Don’t be stupid. Don’t break laws.**
+
+---
+
+## 🚀 What Does Roptcher Do?
+Imagine a robot typing every possible password into a login box until it gets in. That’s Roptcher.
+
+But it’s smarter than your average bot:
+- It can run **multiple attempts at once** (multi-threaded)
+- It can **pause/resume with hotkeys** like a music player (CTRL+P)
+- It **grabs hidden tokens** the website needs so it doesn’t break anything
+- It **saves good passwords** when it finds them
+
+---
+
+## 🔧 How to Use It
+You’ll need:
+- Python 3 installed
+- A file full of password guesses (like `rockyou.txt`)
+- A working brain 🧠
+
+### 🖥️ Run it like this:
+```bash
+python Roptcherv1.1.py https://accounts.example.com/accounts/v2/login <username> wordlist.txt --threads 5
+```                   
+
+Change:
+- `https://accounts.example.com/...` → to the real login link
+
+- `<username>` → to the account you wanna test
+
+- `wordlist.txt` → to your file of password guesses
+
+- `--threads 3` → number of bots working at once (3 is safe) 
+
+### Example:
+```bash
+python Roptcherv1.1.py https://accounts.snapchat.com/accounts/v2/login YouKnowWho mylist.txt --threads 3
+```
+
+---
+
+## 🧠 What’s Happening Under the Hood
+1. Roptcher visits the login page like a regular user
+2. It base64-encodes the username so the site understands it
+3. It grabs any secret tokens (like `xsrf_token`) from the cookies
+4. It sends the username and each password one at a time
+5. If the server lets it in → logs the hit to `hits.txt`
+6. If not → tries the next one
+
+It also saves the latest server response in `last_response.html` so you can look at what the site said back.
+
+---
+
+## 🧼 Tips to Stay Safe
+- Roptcher doesn’t use proxies. **Use a VPN. Seriously.**
+- **Multihop VPN = harder to trace**
+- Don’t run this on accounts you don’t have permission to test. Not even once.
+
+---
+
+## 📦 What You’ll See
+- ✅ = Password found
+- ❌ = Incorrect guess
+- 🎯 = Success message
+- `hits.txt` = all the working logins
+- `last_response.html` = latest response from the server
+
+---
+
+## 🤖 Credits
+Built by **@joshyboo25** + thc + caffeine
+
+Designed for security learning, visual style, and script-kiddie safety.
+
+---
+
+## 📄 License
+MIT License. Do what you want — just don’t be a jerk with it.
