@@ -3,7 +3,7 @@
 Roptcher is a multi-threaded, visually styled brute-forcing utility designed to test login endpoints that use a 2-step login flow (like `username → password` on separate pages). It is ideal for educational, auditing, or red teaming use cases. **It does not use proxies**, so VPN or multihop usage is strongly advised.
 
 ---
-![Roptcher Logo](./RoptcherLogo.png)
+![Roptcher Logo](./Roptcher.png)
 ---
 
 ## 📌 Features
